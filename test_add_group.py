@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest
+from group  import Group
 
 class TestAddGroup(unittest.TestCase):
 
@@ -19,17 +20,17 @@ class TestAddGroup(unittest.TestCase):
     def submit_create(self, wd):
         wd.find_element_by_name("submit").click()
 
-    def fill_group_form(self, wd, name, header, footer):
+    def fill_group_form(self, wd, group):
         # fill form
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys(name)
+        wd.find_element_by_name("group_name").send_keys(group.name)
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys(header)
+        wd.find_element_by_name("group_header").send_keys(group.header)
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(footer)
+        wd.find_element_by_name("group_footer").send_keys(group.footer)
 
     def init_new_group(self, wd):
         wd.find_element_by_name("new").click()
@@ -54,7 +55,18 @@ class TestAddGroup(unittest.TestCase):
         self.login(wd, username="admin", passw='secret')
         self.open_page_group(wd)
         self.init_new_group(wd)
-        self.fill_group_form(wd, name="group1", header= "my new", footer= "comment group")
+        self.fill_group_form(wd, Group(name="group2", header="my new2", footer="comment group2"))
+        self.submit_create(wd)
+        self.return_to_group_page(wd)
+        self.logout(wd)
+
+    def test_add_empty_group(self):
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd, username="admin", passw='secret')
+        self.open_page_group(wd)
+        self.init_new_group(wd)
+        self.fill_group_form(wd, Group(name="", header="", footer=""))
         self.submit_create(wd)
         self.return_to_group_page(wd)
         self.logout(wd)
