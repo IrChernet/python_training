@@ -41,7 +41,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("address").send_keys(contact.address)
         wd.find_element_by_name("mobile").send_keys(contact.mobile)
         wd.find_element_by_name("email").send_keys(contact.email)
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
