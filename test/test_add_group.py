@@ -1,25 +1,24 @@
 # -*- coding: utf-8 -*-
 import pytest
 from model.group import Group
-from fixture.appl1 import Appgroup
-
+from fixture.application import Application
 
 @pytest.fixture
-def appgr(request):
+def app(request):
     # create fixture
-    fixture = Appgroup()
+    fixture = Application()
     # destroy fixture
     request.addfinalizer(fixture.destroy)
     return fixture
 
 
-def test_add_empty_group(appgr):
-    appgr.login(username="admin", passw='secret')
-    appgr.create_group(Group(name="", header="", footer=""))
-    appgr.logout()
+def test_add_group1(app):
+    app.session.login(username="admin", passw='secret')
+    app.group.create(Group(name="my1", header="hed1", footer="footer1"))
+    app.session.logout()
 
 
-def test_add_group1(appgr):
-    appgr.login(username="admin", passw='secret')
-    appgr.create_group(Group(name="my1", header="hed1", footer="footer1"))
-    appgr.logout()
+def test_add_group_empty(app):
+    app.session.login(username="admin", passw='secret')
+    app.group.create(Group(name="", header="", footer=""))
+    app.session.logout()
