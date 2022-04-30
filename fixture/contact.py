@@ -38,3 +38,29 @@ class ContactHelper:
         self.submit_new_contact()
         # go to home page
         self.open_page_home()
+
+    def delete1Contact(self):
+        wd = self.app.wd
+        # select 1 contact
+        wd.find_element_by_name("selected[]").click()
+        # submit delete
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        # submit delete in modal window
+        wd.switch_to.alert.accept()
+
+    def edit(self):
+        wd = self.app.wd
+        # select 1 contact
+        wd.find_element_by_name("selected[]").click()
+        # img Edit
+        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        # fill form
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys("New FName")
+        wd.find_element_by_name("lastname").click()
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys("New Last")
+        # submit edit
+        wd.find_element_by_name("update").click()
+
