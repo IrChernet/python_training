@@ -4,21 +4,17 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
-
     def submit_new_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("submit").click()
-
 
     def open_page_contact(self):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
 
-
     def open_page_home(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
-
 
     def create(self, contact):
         wd = self.app.wd
@@ -39,7 +35,7 @@ class ContactHelper:
         # go to home page
         self.open_page_home()
 
-    def delete1Contact(self):
+    def delete_first(self):
         wd = self.app.wd
         # select 1 contact
         wd.find_element_by_name("selected[]").click()
@@ -48,7 +44,7 @@ class ContactHelper:
         # submit delete in modal window
         wd.switch_to.alert.accept()
 
-    def edit(self):
+    def edit_first(self, contact):
         wd = self.app.wd
         # select 1 contact
         wd.find_element_by_name("selected[]").click()
@@ -57,10 +53,10 @@ class ContactHelper:
         # fill form
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys("New FName")
+        wd.find_element_by_name("firstname").send_keys(contact.first)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys("New Last")
+        wd.find_element_by_name("lastname").send_keys(contact.last)
         # submit edit
         wd.find_element_by_name("update").click()
 

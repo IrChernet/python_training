@@ -2,7 +2,8 @@
 
 from model.contact import Contact
 
-def test_del_1contact(app):
+def test_del_first_contact(app):
     app.session.login(username="admin", passw='secret')
-    app.contact.delete1Contact()
+    app.contact.open_page_home()
+    app.contact.delete_first()
     app.session.logout()
