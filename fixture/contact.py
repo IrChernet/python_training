@@ -8,7 +8,7 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("submit").click()
 
-    def open_page_contact(self):
+    def open_page_new_contact(self):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
 
@@ -25,7 +25,7 @@ class ContactHelper:
     def create(self, contact):
         wd = self.app.wd
         # open page contact
-        self.open_page_contact()
+        self.open_page_new_contact()
         # go to add new
         wd.find_element_by_link_text("add new").click()
         # fill inputs
@@ -71,4 +71,9 @@ class ContactHelper:
         self.fill_form_contact(new_contact_date)
         # submit edit
         wd.find_element_by_name("update").click()
+
+    def count(self):
+        wd = self.app.wd
+        self.open_page_home()
+        return len(wd.find_elements_by_name("selected[]"))
 

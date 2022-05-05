@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+from model.group import Group
 
-def test_del_1group(app):
-    app.group.delete_1group()
-    app.session.logout()
+def test_delete_first_group(app):
+    if app.group.count() == 0:
+        app.group.create(Group(name="test group"))
+    app.group.delete_first_group()
+
+
