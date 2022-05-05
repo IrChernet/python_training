@@ -16,6 +16,12 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
+
+    def select_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+
+
     def create(self, contact):
         wd = self.app.wd
         # open page contact
@@ -23,40 +29,46 @@ class ContactHelper:
         # go to add new
         wd.find_element_by_link_text("add new").click()
         # fill inputs
-        wd.find_element_by_name("firstname").send_keys(contact.first)
-        wd.find_element_by_name("middlename").send_keys(contact.middle)
-        wd.find_element_by_name("nickname").send_keys(contact.nick)
-        wd.find_element_by_name("title").send_keys(contact.title)
-        wd.find_element_by_name("address").send_keys(contact.address)
-        wd.find_element_by_name("mobile").send_keys(contact.mobile)
-        wd.find_element_by_name("email").send_keys(contact.email)
+        self.fill_form_contact(contact)
         # submit
         self.submit_new_contact()
         # go to home page
         self.open_page_home()
 
+    def fill_form_contact(self, contact):
+        wd = self.app.wd
+        self.change_contact("firstname", contact.first)
+        self.change_contact("middlename", contact.middle)
+        self.change_contact("nickname", contact.nick)
+        self.change_contact("title", contact.title)
+        self.change_contact("address", contact.address)
+        self.change_contact("mobile", contact.mobile)
+        self.change_contact("email", contact.email)
+        self.change_contact("lastname", contact.last)
+
     def delete_first(self):
         wd = self.app.wd
-        # select 1 contact
-        wd.find_element_by_name("selected[]").click()
+        self.select_first_contact()
         # submit delete
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # submit delete in modal window
         wd.switch_to.alert.accept()
 
-    def edit_first(self, contact):
+
+    def change_contact(self, fild_name, text):
         wd = self.app.wd
-        # select 1 contact
-        wd.find_element_by_name("selected[]").click()
+        if text is not None:
+            wd.find_element_by_name(fild_name).click()
+            wd.find_element_by_name(fild_name).clear()
+            wd.find_element_by_name(fild_name).send_keys(text)
+
+    def edit_first(self, new_contact_date):
+        wd = self.app.wd
+        self.select_first_contact()
         # img Edit
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         # fill form
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.first)
-        wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.last)
+        self.fill_form_contact(new_contact_date)
         # submit edit
         wd.find_element_by_name("update").click()
 
