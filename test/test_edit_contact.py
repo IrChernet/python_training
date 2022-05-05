@@ -17,3 +17,4 @@ def test_edit_last_in_contact(app):
         app.contact.create(Contact(first='new test'))
     app.contact.edit_first(Contact(last="New last"))
 
+
