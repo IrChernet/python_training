@@ -11,9 +11,10 @@ def app(request):
     if fixture is None:
     # create fixture
         fixture = Application()
+        fixture.session.login(username="admin", passw='secret')
 
     else:
-        if not fixture.is_valid:
+        if not fixture.is_valid():
             fixture = Application()
     fixture.session.ensure_login(username="admin", passw='secret')
     return fixture
