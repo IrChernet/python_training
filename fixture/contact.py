@@ -10,15 +10,19 @@ class ContactHelper:
 
     def open_page_new_contact(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("add new").click()
+        if not (wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("mobile")) > 0):
+            wd.find_element_by_link_text("add new").click()
+
 
     def open_page_home(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        if not (wd.current_url.endswith("/addressbook") and len(wd.find_elements_by_name("MainForm")) > 0):
+            wd.find_element_by_link_text("home").click()
 
 
     def select_first_contact(self):
         wd = self.app.wd
+        self.open_page_home()
         wd.find_element_by_name("selected[]").click()
 
 
