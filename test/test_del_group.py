@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
 
+
 def test_delete_first_group(app):
     old_groups = app.group.get_group_list()
     if app.group.count() == 0:
@@ -10,7 +11,3 @@ def test_delete_first_group(app):
     new_groups = app.group.get_group_list()
     old_groups[0:1] = []
     assert old_groups == new_groups
-
-
-
-

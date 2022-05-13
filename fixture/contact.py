@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
 
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -17,18 +18,15 @@ class ContactHelper:
         if not (wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("mobile")) > 0):
             wd.find_element_by_link_text("add new").click()
 
-
     def open_page_home(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/addressbook") and len(wd.find_elements_by_name("MainForm")) > 0):
             wd.find_element_by_link_text("home").click()
 
-
     def select_first_contact(self):
         wd = self.app.wd
         self.open_page_home()
         wd.find_element_by_name("selected[]").click()
-
 
     def create(self, contact):
         wd = self.app.wd
@@ -65,7 +63,6 @@ class ContactHelper:
         wd.find_element_by_name("searchstring")
         self.contact_cache = None
 
-
     def change_contact(self, fild_name, text):
         wd = self.app.wd
         if text is not None:
@@ -100,6 +97,3 @@ class ContactHelper:
                 id_cont = element.find_element_by_name("selected[]").get_attribute("value")
                 self.contact_cache.append(Contact(first=f_name, last=l_name, id=id_cont))
         return list(self.contact_cache)
-
-
-
