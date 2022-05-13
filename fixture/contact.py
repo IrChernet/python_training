@@ -12,6 +12,7 @@ class ContactHelper:
         wd.find_element_by_name("submit").click()
 
     contact_cache = None
+    c_id = None
 
     def open_page_new_contact(self):
         wd = self.app.wd
@@ -25,8 +26,12 @@ class ContactHelper:
 
     def select_first_contact(self):
         wd = self.app.wd
+        self.select_contact_by_index(0)
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
         self.open_page_home()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def create(self, contact):
         wd = self.app.wd
@@ -55,7 +60,11 @@ class ContactHelper:
 
     def delete_first(self):
         wd = self.app.wd
-        self.select_first_contact()
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
+        wd = self.app.wd
+        self.select_contact_by_index(index)
         # submit delete
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # submit delete in modal window
@@ -72,10 +81,16 @@ class ContactHelper:
 
     def edit_first(self, new_contact_date):
         wd = self.app.wd
-        self.select_first_contact()
+        self.edit_by_index(new_contact_date, 0)
+
+    def edit_by_index(self, new_contact_date, index):
+        wd = self.app.wd
+        self.select_contact_by_index(index)
         # img Edit
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        s = "//*[@id='maintable']//tr[" + str(index+2) + "]/td[8]"
+        print(" " + s)
         # fill form
+        wd.find_element_by_xpath(s).click()
         self.fill_form_contact(new_contact_date)
         # submit edit
         wd.find_element_by_name("update").click()
