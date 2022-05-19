@@ -111,11 +111,9 @@ class ContactHelper:
             for element in wd.find_elements_by_name("entry"):
                 l_name = element.find_element_by_xpath("td[2]").text
                 f_name = element.find_element_by_xpath("td[3]").text
-                all_phones = element.find_element_by_xpath("td[6]").text.splitlines()
-                print(all_phones)
+                all_phones = element.find_element_by_xpath("td[6]").text
                 id_cont = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(first=f_name, last=l_name, id_cont=id_cont,
-                                                  home=all_phones[0], mobile=all_phones[1],  work=all_phones[2]))
+                self.contact_cache.append(Contact(id_cont=id_cont, first=f_name, last=l_name, all_phones=all_phones))
             return list(self.contact_cache)
 
     def open_contact_to_edit_by_index(self, index):
@@ -141,8 +139,9 @@ class ContactHelper:
         home = wd.find_element_by_name("home").get_attribute("value")
         work = wd.find_element_by_name("work").get_attribute("value")
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
+        secondphone = wd.find_element_by_name("phone2").get_attribute("value")
         return Contact(first=firstname, last=lastname, id_cont=id_cont,
-                       home=home, mobile=mobile, work=work)
+                       home=home, mobile=mobile, work=work,  secondphone=secondphone)
 
     def get_contact_from_viewpage(self, index):
         wd = self.app.wd
@@ -151,4 +150,5 @@ class ContactHelper:
         home = re.search("H: (.*)", text).group(1)
         work = re.search("W: (.*)", text).group(1)
         mobile = re.search("M: (.*)", text).group(1)
-        return Contact(home=home, mobile=mobile, work=work)
+        secondphone = re.search("P: (.*)", text).group(1)
+        return Contact(home=home, mobile=mobile, work=work, secondphone=secondphone)
