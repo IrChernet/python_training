@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
-
+import re
 
 class ContactHelper:
 
@@ -55,6 +55,9 @@ class ContactHelper:
         self.change_contact("title", contact.title)
         self.change_contact("address", contact.address)
         self.change_contact("mobile", contact.mobile)
+        self.change_contact("home", contact.homephone)
+        self.change_contact("work", contact.workphone)
+        self.change_contact("fax", contact.fax)
         self.change_contact("email", contact.email)
         self.change_contact("lastname", contact.last)
 
@@ -88,7 +91,6 @@ class ContactHelper:
         self.select_contact_by_index(index)
         # img Edit
         s = "//*[@id='maintable']//tr[" + str(index+2) + "]/td[8]"
-        print(" " + s)
         # fill form
         wd.find_element_by_xpath(s).click()
         self.fill_form_contact(new_contact_date)
@@ -106,9 +108,47 @@ class ContactHelper:
             wd = self.app.wd
             self.open_page_home()
             self.contact_cache = []
-            for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+            for element in wd.find_elements_by_name("entry"):
                 l_name = element.find_element_by_xpath("td[2]").text
                 f_name = element.find_element_by_xpath("td[3]").text
+                all_phones = element.find_element_by_xpath("td[6]").text.splitlines()
+                print(all_phones)
                 id_cont = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(first=f_name, last=l_name, id=id_cont))
-        return list(self.contact_cache)
+                self.contact_cache.append(Contact(first=f_name, last=l_name, id_cont=id_cont,
+                                                  home=all_phones[0], mobile=all_phones[1],  work=all_phones[2]))
+            return list(self.contact_cache)
+
+    def open_contact_to_edit_by_index(self, index):
+        wd = self.app.wd
+        self.open_page_home()
+        self.select_contact_by_index(index)
+        s = "//*[@id='maintable']//tr[" + str(index + 2) + "]/td[8]"
+        wd.find_element_by_xpath(s).click()
+
+    def open_contact_to_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_page_home()
+        self.select_contact_by_index(index)
+        s = "//*[@id='maintable']//tr[" + str(index + 2) + "]/td[7]"
+        wd.find_element_by_xpath(s).click()
+
+    def get_contact_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_index(index)
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        id_cont = wd.find_element_by_name("id").get_attribute("value")
+        home = wd.find_element_by_name("home").get_attribute("value")
+        work = wd.find_element_by_name("work").get_attribute("value")
+        mobile = wd.find_element_by_name("mobile").get_attribute("value")
+        return Contact(first=firstname, last=lastname, id_cont=id_cont,
+                       home=home, mobile=mobile, work=work)
+
+    def get_contact_from_viewpage(self, index):
+        wd = self.app.wd
+        self.open_contact_to_view_by_index(index)
+        text = wd.find_element_by_xpath("//div[@id='content']").text
+        home = re.search("H: (.*)", text).group(1)
+        work = re.search("W: (.*)", text).group(1)
+        mobile = re.search("M: (.*)", text).group(1)
+        return Contact(home=home, mobile=mobile, work=work)
