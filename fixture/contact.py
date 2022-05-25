@@ -2,6 +2,7 @@
 from model.contact import Contact
 import re
 
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -55,10 +56,12 @@ class ContactHelper:
         self.change_contact("title", contact.title)
         self.change_contact("address", contact.address)
         self.change_contact("mobile", contact.mobile)
-        self.change_contact("home", contact.homephone)
-        self.change_contact("work", contact.workphone)
+        self.change_contact("home", contact.home)
+        self.change_contact("work", contact.work)
         self.change_contact("fax", contact.fax)
         self.change_contact("email", contact.email)
+        self.change_contact("email2", contact.email2)
+        self.change_contact("email3", contact.email3)
         self.change_contact("lastname", contact.last)
 
     def delete_first(self):
@@ -112,9 +115,30 @@ class ContactHelper:
                 l_name = element.find_element_by_xpath("td[2]").text
                 f_name = element.find_element_by_xpath("td[3]").text
                 all_phones = element.find_element_by_xpath("td[6]").text
+                all_mails = element.find_element_by_xpath("td[5]").text
+                address = element.find_element_by_xpath("td[4]").text
                 id_cont = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(id_cont=id_cont, first=f_name, last=l_name, all_phones=all_phones))
+                self.contact_cache.append(
+                    Contact(id_cont=id_cont, first=f_name, last=l_name, all_phones=all_phones,
+                            address=address, all_mails=all_mails))
             return list(self.contact_cache)
+
+    def get_contact_info_by_index(self, index):
+        wd = self.app.wd
+        s = str(index + 2)
+        s2 = "//*[@id='maintable']//tr[" + s + "]/td[2]"
+        s3 = "//*[@id='maintable']//tr[" + s + "]/td[3]"
+        s4 = "//*[@id='maintable']//tr[" + s + "]/td[4]"
+        s5 = "//*[@id='maintable']//tr[" + s + "]/td[5]"
+        s6 = "//*[@id='maintable']//tr[" + s + "]/td[6]"
+        l_name = wd.find_element_by_xpath(s2).text
+        f_name = wd.find_element_by_xpath(s3).text
+        all_phones = wd.find_element_by_xpath(s6).text
+        all_mails = wd.find_element_by_xpath(s5).text
+        address = wd.find_element_by_xpath(s4).text
+        id_cont = wd.find_element_by_name("selected[]").get_attribute("value")
+        return Contact(id_cont=id_cont, first=f_name, last=l_name, all_phones=all_phones,
+                            address=address, all_mails=all_mails)
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
@@ -140,8 +164,13 @@ class ContactHelper:
         work = wd.find_element_by_name("work").get_attribute("value")
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
         secondphone = wd.find_element_by_name("phone2").get_attribute("value")
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        address = wd.find_element_by_name("address").text
         return Contact(first=firstname, last=lastname, id_cont=id_cont,
-                       home=home, mobile=mobile, work=work,  secondphone=secondphone)
+                       home=home, mobile=mobile, work=work,  secondphone=secondphone,
+                       email=email, email2=email2, email3=email3, address=address)
 
     def get_contact_from_viewpage(self, index):
         wd = self.app.wd
