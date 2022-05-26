@@ -107,6 +107,7 @@ class ContactHelper:
         return len(wd.find_elements_by_name("selected[]"))
 
     def get_contact_list(self):
+        print("get contact list ")
         if self.contact_cache is None:
             wd = self.app.wd
             self.open_page_home()
@@ -125,12 +126,12 @@ class ContactHelper:
 
     def get_contact_info_by_index(self, index):
         wd = self.app.wd
-        s = str(index + 2)
-        s2 = "//*[@id='maintable']//tr[" + s + "]/td[2]"
-        s3 = "//*[@id='maintable']//tr[" + s + "]/td[3]"
-        s4 = "//*[@id='maintable']//tr[" + s + "]/td[4]"
-        s5 = "//*[@id='maintable']//tr[" + s + "]/td[5]"
-        s6 = "//*[@id='maintable']//tr[" + s + "]/td[6]"
+        s = "//*[@id='maintable']//tr["+ str(index + 2)
+        s2 = s + "]/td[2]"
+        s3 = s + "]/td[3]"
+        s4 = s + "]/td[4]"
+        s5 = s + "]/td[5]"
+        s6 = s + "]/td[6]"
         l_name = wd.find_element_by_xpath(s2).text
         f_name = wd.find_element_by_xpath(s3).text
         all_phones = wd.find_element_by_xpath(s6).text

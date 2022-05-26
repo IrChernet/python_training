@@ -24,7 +24,7 @@ class Contact:
         self.id_cont = id_cont
 
     def __repr__(self):
-        return "%s:%s" % (self.id_cont, self.first)
+        return "%s:%s;%s;%s" % (self.id_cont, self.first, self.last, self.mobile)
 
     def __eq__(self, other):
         return (self.id_cont is None or other.id_cont is None or self.id_cont == other.id_cont) and self.first == other.first
