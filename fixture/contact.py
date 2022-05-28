@@ -122,7 +122,7 @@ class ContactHelper:
                 self.contact_cache.append(
                     Contact(id_cont=id_cont, first=f_name, last=l_name, all_phones=all_phones,
                             address=address, all_mails=all_mails))
-            return list(self.contact_cache)
+        return list(self.contact_cache)
 
     def get_contact_info_by_index(self, index):
         wd = self.app.wd

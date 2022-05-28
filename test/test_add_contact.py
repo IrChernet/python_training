@@ -24,11 +24,11 @@ def random_mail_string(prefix, maxlen):
 testdata = [
     Contact(first=first, last="last", address="address", email="email", mobile="mobile", home="home")
     for first in ["", random_full_string("first", 10)]
-#    for last in ["", random_full_string("last", 15)]
-#   for address in ["", random_full_string("address", 30)]
-#    for email in ["", random_mail_string("email", 15)]
-#    for mobile in ["", random_phone_string("mobile", 10)]
-#    for home in ["", random_phone_string("home", 10)]
+    for last in ["", random_full_string("last", 15)]
+   for address in ["", random_full_string("address", 30)]
+    for email in ["", random_mail_string("email", 15)]
+    for mobile in ["", random_phone_string("mobile", 10)]
+    for home in ["", random_phone_string("home", 10)]
 ]
 
 
