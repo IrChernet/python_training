@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 class SessionHelper:
 
-    def __init__(self, app):
+    def __init__(self, app, base_url):
         self.app = app
+        self.base_url = base_url
 
     def open_home_page(self):
         wd = self.app.wd
         # open home page
-        wd.get("http://localhost/addressbook/")
+        wd.get(self.base_url)
 
     def login(self, username, passw):
         wd = self.app.wd

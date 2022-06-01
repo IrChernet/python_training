@@ -17,10 +17,11 @@ class Application:
         else:
             raise ValueError("unrecognised browser %s", browser)
         self.wd.implicitly_wait(1)
-        self.session = SessionHelper(self)
+        self.base_url = base_url
+        self.session = SessionHelper(self, base_url)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
-        self.base_url = base_url
+
 
     def is_valid(self):
         try:
