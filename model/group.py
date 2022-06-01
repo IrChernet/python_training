@@ -2,7 +2,7 @@ from sys import maxsize
 
 
 class Group:
-    def __init__(self, name=None, header=None, footer=None, id=None):
+    def __init__(self, id=None, name=None, header=None, footer=None):
         self.name = name
         self.header = header
         self.footer = footer
@@ -19,4 +19,3 @@ class Group:
             return int(self.id)
         else:
             return maxsize
-
