@@ -29,6 +29,9 @@ def app(request):
     fixture.session.ensure_login(username=br_config["username"], passw=br_config["password"])
     return fixture
 
+@pytest.fixture
+def check_ui(request):
+    return request.config.getoption("--check_ui")
 
 @pytest.fixture(scope="session")
 def db(request):
@@ -39,7 +42,6 @@ def db(request):
     def fin():
         dbfixture.destroy()
     request.addfinalizer(fin)
-
     return dbfixture
 
 
@@ -56,6 +58,7 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="firefox")
 #    parser.addoption("--baseUrl", action="store", default="http://localhost/addressbook/")
     parser.addoption("--target", action="store", default="target.json")
+    parser.addoption("--check_ui", action="store_true")
 
 
 def pytest_generate_tests(metafunc):
