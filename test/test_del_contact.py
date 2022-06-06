@@ -14,5 +14,5 @@ def test_del_some_contact(app, db, check_ui):
     old_contacts.remove(cont)
     assert old_contacts == new_contacts
     if check_ui:
-        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
-
+        assert sorted(new_contacts, key=Contact.id_or_max) == \
+               sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
