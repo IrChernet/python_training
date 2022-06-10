@@ -91,6 +91,7 @@ class ContactHelper:
         # submit delete in modal window
         wd.switch_to.alert.accept()
         wd.find_element_by_name("searchstring")
+#        wd.implicitly_wait(10)
         self.contact_cache = None
 
     def change_contact(self, fild_name, text):

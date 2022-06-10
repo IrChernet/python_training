@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
 import random
+import time
 
 def test_del_some_contact(app, db, check_ui):
 
@@ -9,6 +10,7 @@ def test_del_some_contact(app, db, check_ui):
     old_contacts = db.get_contact_list()
     cont = random.choice(old_contacts)
     app.contact.delete_contact_by_id(cont.id_cont)
+    time.sleep(5)
 #    assert len(old_contacts) - 1 == app.contact.count()
     new_contacts = db.get_contact_list()
     old_contacts.remove(cont)
