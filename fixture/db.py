@@ -1,6 +1,7 @@
 import pymysql.cursors
 from model.group import Group
 from model.contact import Contact
+import re
 
 
 class DbFixture:
@@ -28,10 +29,13 @@ class DbFixture:
         list_cont = []
         cursor = self.connection.cursor()
         try:
-            cursor.execute("select id, firstname, lastname, mobile from addressbook where deprecated= '0000-00-00 00:00:00'")
+            cursor.execute("select id, firstname, lastname, address from addressbook where deprecated= '0000-00-00 00:00:00'")
             for row in cursor:
-                (id, first, last, mobile) = row
-                list_cont.append(Contact(id_cont=str(id), first=first, last=last, mobile=mobile))
+                (id, first, last, address) = row
+#                  email, email2, email3, home, mobile, phone2) = row
+                list_cont.append(Contact(id_cont=str(id), first=first, last=last, address=address))
+#                list_cont.append(Contact(id_cont=str(id), first=first, last=last, address=address,
+#                all_mail=all_mail, all_phones=all_phone))
         finally:
             cursor.close()
         return list_cont

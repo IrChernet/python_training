@@ -130,13 +130,14 @@ class ContactHelper:
             for element in wd.find_elements_by_name("entry"):
                 l_name = element.find_element_by_xpath("td[2]").text
                 f_name = element.find_element_by_xpath("td[3]").text
-                all_phones = element.find_element_by_xpath("td[6]").text
-                all_mails = element.find_element_by_xpath("td[5]").text
+#                all_phones = element.find_element_by_xpath("td[6]").text
+#                all_mails = element.find_element_by_xpath("td[5]").text
                 address = element.find_element_by_xpath("td[4]").text
                 id_cont = element.find_element_by_name("selected[]").get_attribute("value")
                 self.contact_cache.append(
-                    Contact(id_cont=id_cont, first=f_name, last=l_name, all_phones=all_phones,
-                            address=address, all_mails=all_mails))
+                    Contact(id_cont=id_cont, first=f_name, last=l_name, address=address))
+#                    Contact(id_cont=id_cont, first=f_name, last=l_name, all_phones=all_phones,
+#                            address=address, all_mails=all_mails))
         return list(self.contact_cache)
 
     def get_contact_info_by_index(self, index):
