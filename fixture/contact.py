@@ -198,3 +198,4 @@ class ContactHelper:
         mobile = re.search("M: (.*)", text).group(1)
         secondphone = re.search("P: (.*)", text).group(1)
         return Contact(home=home, mobile=mobile, work=work, secondphone=secondphone)
+

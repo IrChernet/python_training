@@ -33,8 +33,10 @@ class DbFixture:
 #        ("select id, firstname, lastname, address from addressbook where deprecated= '0000-00-00 00:00:00'")
             for row in cursor:
                 (id, first, last, address, email, email2, email3, home, work, mobile, phone2) = row
+                row2 = (email, email2, email3)
+                row3 = (home, work, mobile, phone2)
                 list_cont.append(Contact(id_cont=str(id), first=first, last=last, address=address,
-                 home=home, mobile=mobile, work=work,  secondphone=phone2,
+                 home=home, mobile=mobile, work=work,  secondphone=phone2, all_mails=row2, all_phones=row3,
                            email=email, email2=email2, email3=email3))
 #                (id, first, last, address) = row
 #            list_cont.append(Contact(id_cont=str(id), first=first, last=last, address=address))

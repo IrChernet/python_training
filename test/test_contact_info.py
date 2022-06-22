@@ -20,7 +20,17 @@ def test_all_contacts_on_home_page(app, db):
         app.contact.create(Contact(first='new F'))
     contacts_list_db = db.get_contact_list()
     contact_from_homepage = app.contact.get_contact_list()
-    assert sorted(contact_from_homepage, key=Contact.id_or_max) == sorted(contacts_list_db, key=Contact.id_or_max)
+    all_phones_db = db.contact.all_phones
+    all_mails_db = db.contact.all_mails
+    db_first = db.contact.first
+    db_last = db.contact.last
+    db_address = db.contact.address
+    assert contact_from_homepage.all_phones == all_phones_db
+    assert contact_from_homepage.all_mails == all_mails_db
+    assert contact_from_homepage.first == db_first
+    assert contact_from_homepage.last == db_last
+    assert contact_from_homepage.address == db_address
+
 
 
 def clear(s):
@@ -38,3 +48,4 @@ def merge_mails(contact):
     return "\n".join(filter(lambda x: x != "",
                             filter(lambda x: x is not None,
                                     [contact.email, contact.email2, contact.email3])))
+
