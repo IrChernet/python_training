@@ -199,3 +199,10 @@ class ContactHelper:
         secondphone = re.search("P: (.*)", text).group(1)
         return Contact(home=home, mobile=mobile, work=work, secondphone=secondphone)
 
+    def add_to_group(self, index, idx):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index]
+        wd.find_element_by_name("to_group")[idx].click()
+        wd.find_element_by_name("add").click()
+        wd.find_element_by_xpath("//div[@class='msgbox'(contains(.,'user added')]")
+
